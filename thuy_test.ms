@@ -1,8 +1,8 @@
-fileIn "D:\\Dropbox\\anhungxadieu_3d\\3dsmax\\maxscripts\\thuy_maxUtils.ms"
-fileIn "D:\\Dropbox\\anhungxadieu_3d\\3dsmax\\maxscripts\\thuy_workWithMaterial.ms"
--- fileIn "D:\\Dropbox\\anhungxadieu_3d\\3dsmax\\maxscripts\\thuy_workWithDotnet.ms"
-fileIn "D:\\Dropbox\\anhungxadieu_3d\\3dsmax\\maxscripts\\thuy_workWithRender.ms"
-fileIn "D:\\Dropbox\\anhungxadieu_3d\\3dsmax\\maxscripts\\thuy_workWithObjs.ms"
+fileIn "D:\\Dropbox\\anhungxadieu_3d\\3dsmax\\maxscripts\\thuy_maxLibs\\thuy_maxUtils.ms"
+fileIn "D:\\Dropbox\\anhungxadieu_3d\\3dsmax\\maxscripts\\thuy_maxLibs\\thuy_workWithMaterial.ms"
+-- fileIn "D:\\Dropbox\\anhungxadieu_3d\\3dsmax\\maxscripts\\thuy_maxLibs\\thuy_workWithDotnet.ms"
+fileIn "D:\\Dropbox\\anhungxadieu_3d\\3dsmax\\maxscripts\\thuy_maxLibs\\thuy_workWithRender.ms"
+fileIn "D:\\Dropbox\\anhungxadieu_3d\\3dsmax\\maxscripts\\thuy_maxLibs\\thuy_workWithObjs.ms"
 fileIn @"D:\Dropbox\anhungxadieu_3d\3dsmax\maxscripts\download\SoulburnScriptsPack_3dsMax_v105_R2013toR2017\scripts\SoulburnScripts\lib\sLib.ms"
 
 -- /////////////////////////////////////////////////////////////////////////////////////
@@ -218,10 +218,11 @@ LoadDllsFromDir "E:/thuy_3dsmax/3dsmax api/mxsCmd/mxsCmd/mxsCmd/out/" "mxsCmd.dl
 
 -- gc()
 st = timestamp(); sh = heapfree
-islands = meshop.thuyGetAllElements $ level:1
-overVerts = meshop.thuyGetOverlapeVertsPerElement $
-result = findOlVertsPerE $ overVerts islands
-print result
+-- islands = meshop.thuyGetAllElements $ level:1
+-- overVerts = meshop.thuyGetOverlapeVertsPerElement $
+-- result = findOlVertsPerE $ overVerts islands
+-- print result
+thuyCreateCruve $
 -- format "c++ \ntime:% ram:% faces:% elements:%\n%\n" (timestamp()-st) (sh-heapfree) $.numfaces elements.count elements
 format "c++ \ntime:% ram:% \n" (timestamp()-st) (sh-heapfree)
 

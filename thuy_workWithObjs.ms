@@ -1,4 +1,4 @@
-fileIn "D:\\Dropbox\\anhungxadieu_3d\\3dsmax\\maxscripts\\thuy_maxUtils.ms"
+fileIn "D:\\Dropbox\\anhungxadieu_3d\\3dsmax\\maxscripts\\thuy_maxLibs\\thuy_maxUtils.ms"
 
 rollout thuy_place_OBJ "Thuy Place Obj"
 (
