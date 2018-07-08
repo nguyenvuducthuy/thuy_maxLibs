@@ -19,10 +19,10 @@ rollout test "Test" width:300
 
 fn cropImag img rec = (
      -- Function cropImag body
-        retBmp = dotnetObject "System.Drawing.Bitmap" 128 128
-        g = (dotnetclass "system.drawing.graphics").fromImage retBmp
-        g.drawimage img rec
-        return retBmp
+    retBmp = dotnetObject "System.Drawing.Bitmap" 128 128
+    g = (dotnetclass "system.drawing.graphics").fromImage retBmp
+    g.drawimage img rec
+    return retBmp
 )
 
 -- fName = "D:\\Dropbox\\anhungxadieu_3d\\3dsmax\\maxscripts\\misc\\manga_eyes_expression_1.png"
