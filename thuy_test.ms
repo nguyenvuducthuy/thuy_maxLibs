@@ -222,7 +222,7 @@ LoadDllsFromDir "E:/thuy_3dsmax/3dsmax api/mxsCmd/mxsCmd/mxsCmd/out/" "mxsCmd.dl
 --         delete objects
 --         node = converttopoly (box lengthsegs:17 widthsegs:17 heightsegs:17)
 --         polyop.breakverts node #{1..node.numverts}
---         for j = 1 to 5 do polyop.meshsmoothbyface node #{1..node.numfaces}
+--         for j = 1 to 2 do polyop.meshsmoothbyface node #{1..node.numfaces}
 --         converttomesh node
 --     )
 -- )
@@ -230,9 +230,9 @@ LoadDllsFromDir "E:/thuy_3dsmax/3dsmax api/mxsCmd/mxsCmd/mxsCmd/out/" "mxsCmd.dl
 -- gc()
 st = timestamp(); sh = heapfree
 islands = meshop.thuyGetAllElements $ level:1
--- overVerts = meshop.thuyGetOverlapeVertsPerElement $
--- result = findOlVertsPerE $ overVerts islands
--- print result
+overVerts = meshop.thuyGetOVLVerts $
+result = findOlVertsPerE $ overVerts islands
+print result
 format "c++ \ntime:% ram:% faces:% elements:%\n%\n" (timestamp()-st) (sh-heapfree) $.numfaces islands.count elements
 -- format "c++ \ntime:% ram:% \n" (timestamp()-st) (sh-heapfree)
 
