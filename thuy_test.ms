@@ -216,16 +216,16 @@ fn configDlg =
 
 LoadDllsFromDir "E:/thuy_3dsmax/3dsmax api/mxsCmd/mxsCmd/mxsCmd/out/" "mxsCmd.dll"
 
-(
-    with undo off with redraw off
-    (
-        delete objects
-        node = converttopoly (box lengthsegs:17 widthsegs:17 heightsegs:17)
-        polyop.breakverts node #{1..node.numverts}
-        for j = 1 to 5 do polyop.meshsmoothbyface node #{1..node.numfaces}
-        converttomesh node
-    )
-)
+-- (
+--     with undo off with redraw off
+--     (
+--         delete objects
+--         node = converttopoly (box lengthsegs:17 widthsegs:17 heightsegs:17)
+--         polyop.breakverts node #{1..node.numverts}
+--         for j = 1 to 5 do polyop.meshsmoothbyface node #{1..node.numfaces}
+--         converttomesh node
+--     )
+-- )
 
 -- gc()
 st = timestamp(); sh = heapfree
