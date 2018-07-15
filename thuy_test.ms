@@ -229,12 +229,12 @@ LoadDllsFromDir "E:/thuy_3dsmax/3dsmax api/mxsCmd/mxsCmd/mxsCmd/out/" "mxsCmd.dl
 
 -- gc()
 st = timestamp(); sh = heapfree
--- islands = meshop.getAllElements $ level:1
-overVerts = meshop.thuyGetOVLVerts $
+islands = meshop.thuyGetAllElements $ level:1
+-- overVerts = meshop.thuyGetOVLVerts $
 -- result = findOlVertsPerE $ overVerts islands
--- print overVerts
--- format "c++ \ntime:% ram:% faces:% elements:%\n%\n" (timestamp()-st) (sh-heapfree) $.numfaces islands.count elements
-format "c++ \ntime:% ram:% \n" (timestamp()-st) (sh-heapfree)
+print islands
+format "c++ \ntime:% ram:% faces:% elements:%\n%\n" (timestamp()-st) (sh-heapfree) $.numfaces islands.count elements
+-- format "c++ \ntime:% ram:% \n" (timestamp()-st) (sh-heapfree)
 
 -- gc()
 -- st = timestamp(); sh = heapfree
