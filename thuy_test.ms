@@ -228,12 +228,12 @@ LoadDllsFromDir "E:/thuy_3dsmax/3dsmax api/mxsCmd/mxsCmd/mxsCmd/out/" "mxsCmd.dl
 -- )
 
 -- gc()
-st = timestamp(); sh = heapfree
-islands = meshop.thuyGetAllElements $ level:1
+-- st = timestamp(); sh = heapfree
+-- islands = meshop.thuyGetAllElements $ level:1
 -- overVerts = meshop.thuyGetOVLVerts $
 -- result = findOlVertsPerE $ overVerts islands
-print islands
-format "c++ \ntime:% ram:% faces:% elements:%\n%\n" (timestamp()-st) (sh-heapfree) $.numfaces islands.count elements
+-- print islands
+-- format "c++ \ntime:% ram:% faces:% elements:%\n%\n" (timestamp()-st) (sh-heapfree) $.numfaces islands.count elements
 -- format "c++ \ntime:% ram:% \n" (timestamp()-st) (sh-heapfree)
 
 -- gc()
@@ -279,3 +279,104 @@ format "c++ \ntime:% ram:% faces:% elements:%\n%\n" (timestamp()-st) (sh-heapfre
 
 -- getTimeRange $[3].track #children
 -- getSubAnimName $[3][2] 2
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+dotnet.loadAssembly "system.dll"
+
+fn createServer ipAddress port = 
+(
+    dotNetIPAddress = (DotNetClass "System.Net.IPAddress").Parse ipAddress
+    tcpListener = DotNetObject "System.Net.Sockets.TcpListener" dotNetIPAddress port
+    tcpListener.Start()
+    msgReceived = ""
+    print ("listening on " + (ipAddress as string) + ":" + (port as string))
+    while true do 
+    (
+        print("waiting for a client socket")
+        socket = tcpListener.AcceptSocket()
+        print("client socket accepted")
+        while msgReceived != "exit" do
+        (
+            sendByteStream = DotNetObject "System.Byte[]" 10000
+            socket.Receive sendByteStream
+            encoding = DotnetClass "System.Text.UTF8Encoding"
+            msgReceived = trimright (encoding.UTF8.GetString(sendByteStream))
+
+            if msgReceived == "socketClosing" then (
+                print("closing socket")
+                socket.Close()
+                exit
+            )
+            else (
+                if msgReceived != "" then (
+                    print("execute : " + msgReceived)
+                    -- execute msgReceived
+                    try(
+                        result = execute(msgReceived)
+                    ) catch (
+                        error_str = "***" + getCurrentException() +"***\n" 
+                        print(error_str)
+                    )
+                    -- send result
+                    ascii_encoder = dotNetObject "System.Text.ASCIIEncoding"
+                    bytes = ascii_encoder.GetBytes (result as string)
+                    result = socket.Send bytes
+                )
+            )
+        )
+    )
+)
+
+fn BackgroundTcpListenerDoWork theSender theEvent =
+(
+    ipAddress = "192.168.1.7"
+    port = 5431
+    try (
+        createServer ipAddress port
+        exit
+    )
+    catch(
+        print("server crashed or port " + (port as string) + " is already used")
+    )
+)
+
+BackgroundWorker = DotNetObject "System.ComponentModel.BackgroundWorker"
+DotNet.AddEventHandler BackgroundWorker "DoWork" BackgroundTcpListenerDoWork
+BackgroundWorker.WorkerSupportsCancellation = true
+BackgroundWorker.RunWorkerAsync()
+
+
+-- run this python in maya
+-- import socket
+
+
+-- def sendMessage(msg, socket):
+--     socket.send(msg)
+--     return s.recv(responseBufferSize)
+
+-- ## connect to the server
+-- responseBufferSize = 1024
+-- s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+-- s.connect(('localhost', 7500))
+
+-- ## send messages
+-- #sendMessage('saveMaxFile "C:/test.max"', s)
+-- sendMessage('sphere()', s)
+
+-- ## close the socket from server and client side
+-- sendMessage('socketClosing', s)
+-- s.shutdown(socket.SHUT_RDWR)
+-- s.close()
