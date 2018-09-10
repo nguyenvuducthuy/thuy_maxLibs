@@ -34,7 +34,7 @@ class Socket_Listen_Thread( threading.Thread ):
 		* ``buffer_size``	Size of data buffer to read from socket.  Generally you want this to be
 								a power of two, larger than the largest data message you'll receive.
 	"""
-	def __init__( self, port = 5432, buffer_size = 1024 ):
+	def __init__( self, port = 5432, buffer_size = 512 ):
 		threading.Thread.__init__( self )
 
 		# Window to post event to later
@@ -77,6 +77,7 @@ class Socket_Listen_Thread( threading.Thread ):
 				# event = self.event_class( data = data )
 				# wx.PostEvent( self.window, event )
 				# self.data_ = data
+				# print data
 				exec(data)
 
 

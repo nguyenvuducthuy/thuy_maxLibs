@@ -22,7 +22,7 @@ Adam Pletcher, Technical Art Director, Volition/THQ
 */
 
 struct mxs_socket (
-	ip_address	= "192.168.1.7",		-- "localhost" is also valid for same machine
+	ip_address	= "192.168.1.6",		-- "localhost" is also valid for same machine
 	port			= 2323,				-- override this to your favorite integer
 
 	-- <dotnet socket>connect <string>ip_string <int>port_int
@@ -125,15 +125,28 @@ fn send_obj_names = (
 -- callbacks.addscript #selectionSetChanged "send_obj_names()" id:#socket_test
 -- format "done\n"
 
+
 msg =
 "
-import maya.cmds as cmds
-
-cmds.sphere(radius = 10)
+import sys
+path = r'D:\Dropbox\anhungxadieu_3d\3dsmax\maxscripts\thuy_maxLibs\tcpSocket'
+if path not in sys.path:
+	sys.path.append(path)
+import anhungxadieu
+reload(anhungxadieu)
+anhungxadieu.run()
 "
 
-socket = mxs_socket port:5432
-socket.send msg
+
+
+
+
+for o in selection do(
+	msg = StringStream ""
+	for i=1 to 3 do format "%," o.pos[i] to:msg
+	socket = mxs_socket port:5432
+	socket.send (msg as string)
+)
 
 -- fn BackgroundTcpListenerDoWork theSender theEvent =
 -- (

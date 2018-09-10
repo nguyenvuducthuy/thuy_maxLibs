@@ -142,77 +142,77 @@ struct thuy2
 
 
 
-(
-global FaceAreaChecker
-struct FaceAreaCheckerStruct
-(
-FaceAreaThresholdMin = 1,
-FaceAreaThresholdMax = 10,
-faceAreaDialog = undefined,
+-- (
+-- global FaceAreaChecker
+-- struct FaceAreaCheckerStruct
+-- (
+-- FaceAreaThresholdMin = 1,
+-- FaceAreaThresholdMax = 10,
+-- faceAreaDialog = undefined,
 
-fn geomCheck theTime theNode theResults =
-(
-    local theCount = case classof theNode of
-    (
-        Editable_Poly: getNumFaces theNode
-        Editable_Mesh: theNode.numfaces
-    )
-    local theAreaMethod = case classof theNode of
-    (
-        Editable_Poly: polyOp.getFaceArea
-        Editable_Mesh: meshOp.getFaceArea
-    )
+-- fn geomCheck theTime theNode theResults =
+-- (
+--     local theCount = case classof theNode of
+--     (
+--         Editable_Poly: getNumFaces theNode
+--         Editable_Mesh: theNode.numfaces
+--     )
+--     local theAreaMethod = case classof theNode of
+--     (
+--         Editable_Poly: polyOp.getFaceArea
+--         Editable_Mesh: meshOp.getFaceArea
+--     )
 
-    for f = 1 to theCount do
-    (
-        local theArea = theAreaMethod theNode f
-        if theArea >= FaceAreaChecker.FaceAreaThresholdMin and theArea <= FaceAreaChecker.FaceAreaThresholdMax do append theResults f
-    )
-3
-),
+--     for f = 1 to theCount do
+--     (
+--         local theArea = theAreaMethod theNode f
+--         if theArea >= FaceAreaChecker.FaceAreaThresholdMin and theArea <= FaceAreaChecker.FaceAreaThresholdMax do append theResults f
+--     )
+-- 3
+-- ),
 
-fn supportedCheck theNode =
-(
-    classof theNode == Editable_Mesh or classof theNode == Editable_Poly
-),
+-- fn supportedCheck theNode =
+-- (
+--     classof theNode == Editable_Mesh or classof theNode == Editable_Poly
+-- ),
 
-fn configDlg =
-(
-    try(destroyDialog FaceAreaChecker.faceAreaDialog)catch()
-    rollout faceAreaDialog "Face Area Checker"
-    (
-        spinner spn_FaceAreaThresholdMin "Min. Threshold:" range:[0,1000000,FaceAreaChecker.FaceAreaThresholdMin] offset:[7,-3] type:#worldUnits
-        spinner spn_FaceAreaThresholdMax "Max. Threshold:" range:[0,1000000,FaceAreaChecker.FaceAreaThresholdMax] offset:[7,-3] type:#worldUnits
+-- fn configDlg =
+-- (
+--     try(destroyDialog FaceAreaChecker.faceAreaDialog)catch()
+--     rollout faceAreaDialog "Face Area Checker"
+--     (
+--         spinner spn_FaceAreaThresholdMin "Min. Threshold:" range:[0,1000000,FaceAreaChecker.FaceAreaThresholdMin] offset:[7,-3] type:#worldUnits
+--         spinner spn_FaceAreaThresholdMax "Max. Threshold:" range:[0,1000000,FaceAreaChecker.FaceAreaThresholdMax] offset:[7,-3] type:#worldUnits
 
-        fn updateDisplay =
-        (
-            XViewChecker.runCheck CurrentTime
-            max views redraw
-        )
-        on spn_FaceAreaThresholdMin changed val do
-        (
-            FaceAreaChecker.FaceAreaThresholdMin = val
-            updateDisplay()
-        )
-        on spn_FaceAreaThresholdMax changed val do
-        (
-            FaceAreaChecker.FaceAreaThresholdMax = val
-            updateDisplay()
-        )
-    )--end rollout
+--         fn updateDisplay =
+--         (
+--             XViewChecker.runCheck CurrentTime
+--             max views redraw
+--         )
+--         on spn_FaceAreaThresholdMin changed val do
+--         (
+--             FaceAreaChecker.FaceAreaThresholdMin = val
+--             updateDisplay()
+--         )
+--         on spn_FaceAreaThresholdMax changed val do
+--         (
+--             FaceAreaChecker.FaceAreaThresholdMax = val
+--             updateDisplay()
+--         )
+--     )--end rollout
 
-    createDialog faceAreaDialog
-    setDialogPos faceAreaDialog mouse.screenpos
-    FaceAreaChecker.faceAreaDialog = faceAreaDialog
-)
-)--end struct
+--     createDialog faceAreaDialog
+--     setDialogPos faceAreaDialog mouse.screenpos
+--     FaceAreaChecker.faceAreaDialog = faceAreaDialog
+-- )
+-- )--end struct
 
 -- try(destroyDialog FaceAreaChecker.faceAreaDialog)catch()
 -- FaceAreaChecker = FaceAreaCheckerStruct()
 
 -- XViewChecker.unRegisterChecker "Face Area Checker"
 -- XViewChecker.registerChecker FaceAreaChecker.geomCheck FaceAreaChecker.supportedCheck #Faces "Face Area Checker" FaceAreaChecker.configDlg undefined undefined
-)--end script
+-- )--end script
 
 LoadDllsFromDir "E:/thuy_3dsmax/3dsmax api/mxsCmd/mxsCmd/mxsCmd/out/" "mxsCmd.dll"
 
@@ -294,69 +294,69 @@ LoadDllsFromDir "E:/thuy_3dsmax/3dsmax api/mxsCmd/mxsCmd/mxsCmd/out/" "mxsCmd.dl
 
 
 
-dotnet.loadAssembly "system.dll"
+-- dotnet.loadAssembly "system.dll"
 
-fn createServer ipAddress port = 
-(
-    dotNetIPAddress = (DotNetClass "System.Net.IPAddress").Parse ipAddress
-    tcpListener = DotNetObject "System.Net.Sockets.TcpListener" dotNetIPAddress port
-    tcpListener.Start()
-    msgReceived = ""
-    print ("listening on " + (ipAddress as string) + ":" + (port as string))
-    while true do 
-    (
-        print("waiting for a client socket")
-        socket = tcpListener.AcceptSocket()
-        print("client socket accepted")
-        while msgReceived != "exit" do
-        (
-            sendByteStream = DotNetObject "System.Byte[]" 10000
-            socket.Receive sendByteStream
-            encoding = DotnetClass "System.Text.UTF8Encoding"
-            msgReceived = trimright (encoding.UTF8.GetString(sendByteStream))
+-- fn createServer ipAddress port = 
+-- (
+--     dotNetIPAddress = (DotNetClass "System.Net.IPAddress").Parse ipAddress
+--     tcpListener = DotNetObject "System.Net.Sockets.TcpListener" dotNetIPAddress port
+--     tcpListener.Start()
+--     msgReceived = ""
+--     print ("listening on " + (ipAddress as string) + ":" + (port as string))
+--     while true do 
+--     (
+--         print("waiting for a client socket")
+--         socket = tcpListener.AcceptSocket()
+--         print("client socket accepted")
+--         while msgReceived != "exit" do
+--         (
+--             sendByteStream = DotNetObject "System.Byte[]" 10000
+--             socket.Receive sendByteStream
+--             encoding = DotnetClass "System.Text.UTF8Encoding"
+--             msgReceived = trimright (encoding.UTF8.GetString(sendByteStream))
 
-            if msgReceived == "socketClosing" then (
-                print("closing socket")
-                socket.Close()
-                exit
-            )
-            else (
-                if msgReceived != "" then (
-                    print("execute : " + msgReceived)
-                    -- execute msgReceived
-                    try(
-                        result = execute(msgReceived)
-                    ) catch (
-                        error_str = "***" + getCurrentException() +"***\n" 
-                        print(error_str)
-                    )
-                    -- send result
-                    ascii_encoder = dotNetObject "System.Text.ASCIIEncoding"
-                    bytes = ascii_encoder.GetBytes (result as string)
-                    result = socket.Send bytes
-                )
-            )
-        )
-    )
-)
+--             if msgReceived == "socketClosing" then (
+--                 print("closing socket")
+--                 socket.Close()
+--                 exit
+--             )
+--             else (
+--                 if msgReceived != "" then (
+--                     print("execute : " + msgReceived)
+--                     -- execute msgReceived
+--                     try(
+--                         result = execute(msgReceived)
+--                     ) catch (
+--                         error_str = "***" + getCurrentException() +"***\n" 
+--                         print(error_str)
+--                     )
+--                     -- send result
+--                     ascii_encoder = dotNetObject "System.Text.ASCIIEncoding"
+--                     bytes = ascii_encoder.GetBytes (result as string)
+--                     result = socket.Send bytes
+--                 )
+--             )
+--         )
+--     )
+-- )
 
-fn BackgroundTcpListenerDoWork theSender theEvent =
-(
-    ipAddress = "192.168.1.7"
-    port = 5431
-    try (
-        createServer ipAddress port
-        exit
-    )
-    catch(
-        print("server crashed or port " + (port as string) + " is already used")
-    )
-)
+-- fn BackgroundTcpListenerDoWork theSender theEvent =
+-- (
+--     ipAddress = "192.168.1.7"
+--     port = 5431
+--     try (
+--         createServer ipAddress port
+--         exit
+--     )
+--     catch(
+--         print("server crashed or port " + (port as string) + " is already used")
+--     )
+-- )
 
-BackgroundWorker = DotNetObject "System.ComponentModel.BackgroundWorker"
-DotNet.AddEventHandler BackgroundWorker "DoWork" BackgroundTcpListenerDoWork
-BackgroundWorker.WorkerSupportsCancellation = true
-BackgroundWorker.RunWorkerAsync()
+-- BackgroundWorker = DotNetObject "System.ComponentModel.BackgroundWorker"
+-- DotNet.AddEventHandler BackgroundWorker "DoWork" BackgroundTcpListenerDoWork
+-- BackgroundWorker.WorkerSupportsCancellation = true
+-- BackgroundWorker.RunWorkerAsync()
 
 
 -- run this python in maya
@@ -380,3 +380,152 @@ BackgroundWorker.RunWorkerAsync()
 -- sendMessage('socketClosing', s)
 -- s.shutdown(socket.SHUT_RDWR)
 -- s.close()
+
+-- imageClass = dotNetClass "system.drawing.image"
+
+-- path_ = @"E:\thuypainting\jpg\181368_384911108232685_338829425_n.jpg"
+-- img = imageClass.fromFile path_
+
+-- try(wf.close())catch()
+
+-- tt = dotNetObject "toolTip"
+-- fn sImg s e = (
+--     pos = s.cursor.position
+--     str = "
+--        Show <System.String>text <System.Windows.Forms.IWin32Window>window
+--       .Show <System.String>text <System.Windows.Forms.IWin32Window>window <System.Drawing.Point>point
+--       .Show <System.String>text <System.Windows.Forms.IWin32Window>window <System.Int32>duration
+--       .Show <System.String>text <System.Windows.Forms.IWin32Window>window <System.Int32>x <System.Int32>y
+--       .Show <System.String>text <System.Windows.Forms.IWin32Window>window <System.Drawing.Point>point <System.Int32>duration
+--       .Show <System.String>text <System.Windows.Forms.IWin32Window>window <System.Int32>x <System.Int32>y <System.Int32>duration
+--       .<System.String>ToString()
+--     "
+--     tt.show str s.parent (pos.X-s.parent.location.X) (pos.Y-s.parent.location.Y)
+-- )
+
+-- fn hImg s e = (
+--     tt.hide s.parent
+-- )
+
+-- wf = dotnetObject "form"
+-- gv = dotNetObject "datagridView"
+-- gv.dock = gv.dock.fill
+-- -- showProperties gv
+
+-- col = dotNetObject "datagridViewButtonColumn"
+-- col.name = "thuy"
+-- gv.columns.add col
+-- gv.AutoSizeColumnsMode = gv.AutoSizeColumnsMode.fill
+
+-- row = dotNetObject "DataGridViewRow"
+-- gv.rows.add row
+-- row.cells.item[0].value = "anhungxadieu"
+
+-- tt.setTooltip gv "thuy"
+-- showEvents gv
+
+-- dotNet.addEventHandler gv "cellMouseDown" sImg
+-- dotNet.addEventHandler gv "cellMouseUp" hImg
+
+-- wf.controls.add gv
+-- wf.show()
+
+
+
+
+
+
+
+
+
+
+
+
+
+asm = dotNet.loadAssembly @"D:\Dropbox\anhungxadieu_3d\3dsmax\dotnet\WeifenLuo.WinFormsUI.Docking.dll"
+-- for t in asm.GetExportedTypes() do print t.fullname
+thuy = dotnetobject "WeifenLuo.WinFormsUI.Docking.DockPanel"
+
+
+
+
+fn do_ s e = (
+    tv_ = (s.tag.value)
+    r = tv_.ClientRectangle
+    r.Inflate -100 -100
+    tv_.Bounds = tv_.RectangleToScreen(r)
+
+    tv_.ScrollControlIntoView(s)
+)
+
+w = dotnetobject "form"
+tv = dotNetObject "System.Windows.Forms.TableLayoutPanel"
+
+tv.layoutSettings.RowCount = 12
+tv.layoutSettings.ColumnCount = 6
+--tv.BorderStyle = (dotNetClass "System.Windows.Forms.BorderStyle").None
+--tv.CellBorderStyle = (dotNetClass "System.Windows.Forms.TableLayoutPanelCellBorderStyle").Single
+tv.dock = tv.dock.fill
+tv.AutoSize = false
+tv.AutoScroll  = true
+tv.AutoSizeMode = tv.AutoSizeMode.GrowOnly
+
+--tv.width = tv.layoutSettings.ColumnCount * 32
+--tv.height = tv.layoutSettings.RowCount* 32
+
+for i = 0 to tv.layoutSettings.RowCount - 1 do
+for j = 0 to tv.layoutSettings.ColumnCount - 1 do
+(
+btn = (dotNetObject "System.Windows.Forms.Button")
+btn.tag = (dotNetMXSValue tv)
+dotNet.addEventHandler btn "click" do_
+--dotShow
+-- btn.Width = 25
+-- btn.Height = 25
+btn.Text = (i+j) as string
+btn.dock = btn.dock.fill
+tv.Controls.Add btn i j
+)
+
+for i=0 to tv.columncount do(
+    percent = 100.0 / tv.ColumnCount
+    tv.ColumnStyles.add(dotNetObject "ColumnStyle" (dotNetClass "sizeType").percent 50)
+)
+
+for i=0 to tv.rowcount do(
+    percent = 100.0 / tv.rowCount
+    tv.rowStyles.add(dotNetObject "rowStyle" (dotNetClass "sizeType").percent 50)
+)
+
+w.AutoScroll  = true
+btn = (dotNetObject "System.Windows.Forms.Button")
+btn.tag = dotNetMXSValue w
+dotNet.addEventHandler btn "click" do_
+
+
+DockState = dotNetClass "WeifenLuo.WinFormsUI.Docking.DockState"
+kuku = dotNetObject "WeifenLuo.WinFormsUI.Docking.DockContent"
+kaka = dotNetObject "WeifenLuo.WinFormsUI.Docking.DockContent"
+koko = dotNetObject "WeifenLuo.WinFormsUI.Docking.DockContent"
+
+thuy.dock = thuy.dock.fill
+kuku.text = "thuy"
+kuku.controls.add tv
+kaka.controls.add btn
+koko.controls.add tv
+kuku.show thuy DockState.DockLeft
+kaka.show thuy DockState.DockRight
+koko.show thuy DockState.Document
+w.IsMdiContainer = true
+w.controls.add thuy
+
+w.show()
+
+showMethods kuku
+
+
+
+-- theFrm = dotNetObject "MaxCustomControls.SceneExplorerControls.SceneExplorerDialog"
+-- thePtr = DotNetObject "System.IntPtr" (windows.getMAXHWND())
+-- theHwnd = (dotNetObject "System.Windows.Forms.NativeWindow").FromHandle thePtr
+-- theFrm.Show(theHwnd)
