@@ -443,6 +443,7 @@ LoadDllsFromDir "E:/thuy_3dsmax/3dsmax api/mxsCmd/mxsCmd/mxsCmd/out/" "mxsCmd.dl
 
 
 asm = dotNet.loadAssembly @"D:\Dropbox\anhungxadieu_3d\3dsmax\dotnet\WeifenLuo.WinFormsUI.Docking.dll"
+asmO = dotNet.loadAssembly @"D:\Dropbox\anhungxadieu_3d\3dsmax\dotnet\ObjectListView\ObjectListView.dll"
 -- for t in asm.GetExportedTypes() do print t.fullname
 thuy = dotnetobject "WeifenLuo.WinFormsUI.Docking.DockPanel"
 
@@ -502,6 +503,14 @@ btn = (dotNetObject "System.Windows.Forms.Button")
 btn.tag = dotNetMXSValue w
 dotNet.addEventHandler btn "click" do_
 
+olv = dotnetObject "BrightIdeasSoftware.TreeListView"
+olv.dock = olv.dock.fill
+olv.VirtualMode = false
+olvC1 = dotNetObject "BrightIdeasSoftware.OLVColumn"
+olvC2 = dotNetObject "BrightIdeasSoftware.OLVColumn"
+olv.columns.add olvC1
+olv.columns.add olvC2
+olv.items.add "thuy" "10"
 
 DockState = dotNetClass "WeifenLuo.WinFormsUI.Docking.DockState"
 kuku = dotNetObject "WeifenLuo.WinFormsUI.Docking.DockContent"
@@ -510,18 +519,20 @@ koko = dotNetObject "WeifenLuo.WinFormsUI.Docking.DockContent"
 
 thuy.dock = thuy.dock.fill
 kuku.text = "thuy"
+koko.text = "ObjectListView"
 kuku.controls.add tv
 kaka.controls.add btn
-koko.controls.add tv
+koko.controls.add olv
 kuku.show thuy DockState.DockLeft
 kaka.show thuy DockState.DockRight
-koko.show thuy DockState.Document
 w.IsMdiContainer = true
 w.controls.add thuy
+koko.show thuy DockState.Document
+
 
 w.show()
 
-showMethods kuku
+showProperties olv
 
 
 
