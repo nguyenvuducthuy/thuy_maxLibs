@@ -450,89 +450,116 @@ thuy = dotnetobject "WeifenLuo.WinFormsUI.Docking.DockPanel"
 
 
 
-fn do_ s e = (
-    tv_ = (s.tag.value)
-    r = tv_.ClientRectangle
-    r.Inflate -100 -100
-    tv_.Bounds = tv_.RectangleToScreen(r)
+-- fn do_ s e = (
+--     tv_ = (s.tag.value)
+--     r = tv_.ClientRectangle
+--     r.Inflate -100 -100
+--     tv_.Bounds = tv_.RectangleToScreen(r)
 
-    tv_.ScrollControlIntoView(s)
+--     tv_.ScrollControlIntoView(s)
+-- )
+
+-- w = dotnetobject "form"
+-- tv = dotNetObject "System.Windows.Forms.TableLayoutPanel"
+
+-- tv.layoutSettings.RowCount = 12
+-- tv.layoutSettings.ColumnCount = 6
+-- --tv.BorderStyle = (dotNetClass "System.Windows.Forms.BorderStyle").None
+-- --tv.CellBorderStyle = (dotNetClass "System.Windows.Forms.TableLayoutPanelCellBorderStyle").Single
+-- tv.dock = tv.dock.fill
+-- tv.AutoSize = false
+-- tv.AutoScroll  = true
+-- tv.AutoSizeMode = tv.AutoSizeMode.GrowOnly
+
+-- --tv.width = tv.layoutSettings.ColumnCount * 32
+-- --tv.height = tv.layoutSettings.RowCount* 32
+
+-- for i = 0 to tv.layoutSettings.RowCount - 1 do
+-- for j = 0 to tv.layoutSettings.ColumnCount - 1 do
+-- (
+-- btn = (dotNetObject "System.Windows.Forms.Button")
+-- btn.tag = (dotNetMXSValue tv)
+-- dotNet.addEventHandler btn "click" do_
+-- --dotShow
+-- -- btn.Width = 25
+-- -- btn.Height = 25
+-- btn.Text = (i+j) as string
+-- btn.dock = btn.dock.fill
+-- tv.Controls.Add btn i j
+-- )
+
+-- for i=0 to tv.columncount do(
+--     percent = 100.0 / tv.ColumnCount
+--     tv.ColumnStyles.add(dotNetObject "ColumnStyle" (dotNetClass "sizeType").percent 50)
+-- )
+
+-- for i=0 to tv.rowcount do(
+--     percent = 100.0 / tv.rowCount
+--     tv.rowStyles.add(dotNetObject "rowStyle" (dotNetClass "sizeType").percent 50)
+-- )
+
+-- w.AutoScroll  = true
+-- btn = (dotNetObject "System.Windows.Forms.Button")
+-- btn.tag = dotNetMXSValue w
+-- dotNet.addEventHandler btn "click" do_
+
+-- olv = dotnetObject "BrightIdeasSoftware.TreeListView"
+-- olv.dock = olv.dock.fill
+-- olv.VirtualMode = false
+-- olvC1 = dotNetObject "BrightIdeasSoftware.OLVColumn"
+-- olvC2 = dotNetObject "BrightIdeasSoftware.OLVColumn"
+-- olv.columns.add olvC1
+-- olv.columns.add olvC2
+-- olv.items.add "thuy" "10"
+
+-- DockState = dotNetClass "WeifenLuo.WinFormsUI.Docking.DockState"
+-- kuku = dotNetObject "WeifenLuo.WinFormsUI.Docking.DockContent"
+-- kaka = dotNetObject "WeifenLuo.WinFormsUI.Docking.DockContent"
+-- koko = dotNetObject "WeifenLuo.WinFormsUI.Docking.DockContent"
+-- thuy.dock = thuy.dock.fill
+-- kuku.text = "thuy"
+-- koko.text = "ObjectListView"
+-- kuku.controls.add tv
+-- kaka.controls.add btn
+-- koko.controls.add olv
+-- kuku.show thuy DockState.DockLeft
+-- kaka.show thuy DockState.DockRight
+
+lv = dotnetobject "ListView"
+lv.View = lv.View.Details
+lv.columns.add "thuy"
+lv.columns.add "kuku"
+lv.columns.add "pb"
+lv.dock = lv.dock.fill
+for i=1 to 10 do(
+
+    lvi = dotNetObject "ListViewItem"
+    pb  = dotNetObject "ProgressBar"
+
+    lvi.SubItems.item[0].Text = "name"
+    lvi.SubItems.Add "daudadsu"
+    lvi.SubItems.Add ""
+    lvi.SubItems.Add "key"
+    lv.Items.Add lvi
+
+    r = lvi.SubItems.item[2].Bounds
+    pb.SetBounds r.X r.Y r.Width r.Height
+--     pb.SetBounds 0 0 200 20
+    pb.Minimum = 1
+    pb.Maximum = 10
+    pb.Value = 5
+    pb.Name = "key"
+    lv.Controls.Add pb
 )
 
-w = dotnetobject "form"
-tv = dotNetObject "System.Windows.Forms.TableLayoutPanel"
-
-tv.layoutSettings.RowCount = 12
-tv.layoutSettings.ColumnCount = 6
---tv.BorderStyle = (dotNetClass "System.Windows.Forms.BorderStyle").None
---tv.CellBorderStyle = (dotNetClass "System.Windows.Forms.TableLayoutPanelCellBorderStyle").Single
-tv.dock = tv.dock.fill
-tv.AutoSize = false
-tv.AutoScroll  = true
-tv.AutoSizeMode = tv.AutoSizeMode.GrowOnly
-
---tv.width = tv.layoutSettings.ColumnCount * 32
---tv.height = tv.layoutSettings.RowCount* 32
-
-for i = 0 to tv.layoutSettings.RowCount - 1 do
-for j = 0 to tv.layoutSettings.ColumnCount - 1 do
-(
-btn = (dotNetObject "System.Windows.Forms.Button")
-btn.tag = (dotNetMXSValue tv)
-dotNet.addEventHandler btn "click" do_
---dotShow
--- btn.Width = 25
--- btn.Height = 25
-btn.Text = (i+j) as string
-btn.dock = btn.dock.fill
-tv.Controls.Add btn i j
-)
-
-for i=0 to tv.columncount do(
-    percent = 100.0 / tv.ColumnCount
-    tv.ColumnStyles.add(dotNetObject "ColumnStyle" (dotNetClass "sizeType").percent 50)
-)
-
-for i=0 to tv.rowcount do(
-    percent = 100.0 / tv.rowCount
-    tv.rowStyles.add(dotNetObject "rowStyle" (dotNetClass "sizeType").percent 50)
-)
-
-w.AutoScroll  = true
-btn = (dotNetObject "System.Windows.Forms.Button")
-btn.tag = dotNetMXSValue w
-dotNet.addEventHandler btn "click" do_
-
-olv = dotnetObject "BrightIdeasSoftware.TreeListView"
-olv.dock = olv.dock.fill
-olv.VirtualMode = false
-olvC1 = dotNetObject "BrightIdeasSoftware.OLVColumn"
-olvC2 = dotNetObject "BrightIdeasSoftware.OLVColumn"
-olv.columns.add olvC1
-olv.columns.add olvC2
-olv.items.add "thuy" "10"
-
-DockState = dotNetClass "WeifenLuo.WinFormsUI.Docking.DockState"
-kuku = dotNetObject "WeifenLuo.WinFormsUI.Docking.DockContent"
-kaka = dotNetObject "WeifenLuo.WinFormsUI.Docking.DockContent"
-koko = dotNetObject "WeifenLuo.WinFormsUI.Docking.DockContent"
-
-thuy.dock = thuy.dock.fill
-kuku.text = "thuy"
-koko.text = "ObjectListView"
-kuku.controls.add tv
-kaka.controls.add btn
-koko.controls.add olv
-kuku.show thuy DockState.DockLeft
-kaka.show thuy DockState.DockRight
 w.IsMdiContainer = true
-w.controls.add thuy
-koko.show thuy DockState.Document
+w.controls.add lv
+-- koko.show thuy DockState.Document
 
 
 w.show()
 
-showProperties olv
+-- showProperties olv
 
 
 
